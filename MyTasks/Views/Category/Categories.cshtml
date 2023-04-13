@@ -1,0 +1,131 @@
+﻿@using MyTasks.Core.Models.Domains
+
+@model IEnumerable<Category>
+
+@{
+    ViewData["Title"] = "Kategorie";
+}
+
+<h1 class="mb-3">Kategorie</h1>
+
+<div class="container">
+    <div class="row">
+     <div class="col-auto">
+        <button class="btn btn-primary"
+                onclick="addCategory()">
+            Dodaj nową kategorię
+        </button>
+     </div>
+    </div>
+    <div class="row">
+       @await Html.PartialAsync("_CategoriesTable", @Model)
+    </div>
+    
+    
+</div>
+
+
+<div id="categoryPartial">
+
+</div>
+
+@section Scripts
+{
+    <script type="text/javascript">
+
+        function addCategory(){
+            $.ajax({
+                type: 'POST',
+                url: '@Url.Action("Category", "Category")',
+                data: {
+                    id : 0
+                },
+                success: function (data) {
+                    $('#categoryPartial').html(data);
+                    $('#categoryModal').modal('show');
+                },
+                error: function (data) {
+                    alert(data.message);
+                },
+                dataType: "html"
+            });
+        }
+
+        function editCategory(id){
+            $.ajax({
+                type: 'POST',
+                url: '@Url.Action("Category", "Category")',
+                data: {
+                    id : id
+                },
+                success: function (data) {
+                    $('#categoryPartial').html(data);
+                    $('#categoryModal').modal('show');
+                },
+                error: function (data) {
+                    alert(data.message);
+                },
+                dataType: "html"
+            });
+        }
+
+        
+        function saveCategory(){
+            $.ajax({
+                type: 'POST',
+                url: '@Url.Action("Save", "Category")',
+                data: $('#categoryForm').serialize(),
+                success: function (data) {
+                    reloadCategoriesTable();
+                    $('#categoryModal').modal('hide');
+                   
+                },
+                error: function (data) {
+                    alert(data.message);
+                },
+                dataType: "html"
+            });
+        }
+
+        function deleteCategory(id, btn) {
+            if (!confirm("Czy na pewno chcesz usunąć kategorię?"))
+                return;
+            $.ajax({
+                type: 'POST',
+                url: '@Url.Action("Delete", "Category")',
+                data: {
+                    id: id
+                },
+                success: function (data) {
+                    if (data.success) {
+                        var row = btn.parentNode.parentNode;
+                        row.parentNode.removeChild(row);
+                    } else {
+                        alert(data.message);
+                    }
+                },
+                error: function (data) {
+                    alert(data.message)
+                },
+                dataType: "json"
+            });
+        }
+
+        function reloadCategoriesTable(){
+            $.ajax({
+                type: 'GET',
+                url: '@Url.Action("CategoriesTable", "Category")',
+                data: null,
+                success: function (data) {
+                    $('#categoriesTable').html(data);
+                },
+                error: function (data) {
+                    alert(data.message);
+                },
+                dataType: "html"
+            });
+            
+        }
+
+    </script>
+}

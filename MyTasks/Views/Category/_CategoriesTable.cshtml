@@ -1,0 +1,53 @@
+﻿@using MyTasks.Core.Models.Domains;
+
+@model IEnumerable<Category>
+
+<div id="categoriesTable"
+    class="col-5">
+    <table class="table mt-3 table-bordered">
+        <thead class="table-dark">
+            <tr>
+                <th class="w-75" scope="col">
+                    <div class="text-center">
+                        Nazwa
+                    </div>
+                </th>
+                <th class="w-25" scope="col"></th>
+            </tr>
+        </thead>
+        <tbody>
+            @if (Model != null && Model.Any())
+            {
+                foreach (var category in Model)
+                {
+                    <tr>
+                        <td>
+                            <div class="text-center">
+                                <a href="@Url.Action("Category",
+                                                     "Category",
+                                                     new { id = category.Id})"
+                                   class="text-decoration-none fw-bold" )>
+                                    @category.Name
+                                </a>
+                            </div>
+                        </td>
+                        <td class="text-center">
+                            <button class="btn btn-danger btn-sm"
+                                    onclick="deleteCategory('@category.Id', this)">
+                                Usuń
+                            </button>
+                        </td>
+                    </tr>
+                }
+            }
+            else
+            {
+                <tr>
+                    <td class="text-center" colspan="5">
+                        Brak kategorii!
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
