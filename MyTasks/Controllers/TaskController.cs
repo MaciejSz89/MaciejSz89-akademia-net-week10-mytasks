@@ -16,10 +16,12 @@ namespace MyTasks.Controllers
     public class TaskController : Controller
     {
         private ITaskService _taskService;
+        private ICategoryService _categoryService;
 
-        public TaskController(ITaskService taskService)
+        public TaskController(ITaskService taskService, ICategoryService categoryService)
         {
             _taskService = taskService;
+            _categoryService = categoryService;
         }
         public IActionResult Tasks()
         {
@@ -28,7 +30,7 @@ namespace MyTasks.Controllers
             var vm = new TasksViewModel
             {
                 Tasks = _taskService.Get(new GetTaskParams { UserId = userId }),
-                Categories = _taskService.GetCategories(userId),
+                Categories = _categoryService.Get(userId),
                 FilterTasks = new FilterTasks()
             };
 
@@ -63,7 +65,7 @@ namespace MyTasks.Controllers
             var vm = new TaskViewModel
             {
                 Task = task,
-                Categories = _taskService.GetCategories(userId),
+                Categories = _categoryService.Get(userId),
                 Heading = id == 0 ? "Dodawanie nowego zadania" : "Edytowanie zadania"
             };
 
@@ -83,7 +85,7 @@ namespace MyTasks.Controllers
                 var vm = new TaskViewModel
                 {
                     Task = task,
-                    Categories = _taskService.GetCategories(userId),
+                    Categories = _categoryService.Get(userId),
                     Heading = task.Id == 0 ? "Dodawanie nowego zadania" : "Edytowanie zadania"
                 };
 

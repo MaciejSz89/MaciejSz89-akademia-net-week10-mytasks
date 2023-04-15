@@ -50,9 +50,5 @@ namespace MyTasks.Persistence.Services
             _unitOfWork.Complete();
         }
 
-        public IEnumerable<Category> GetCategories(string userId)
-        {
-            return _unitOfWork.Category.Get(userId);
-        }
     }
 }

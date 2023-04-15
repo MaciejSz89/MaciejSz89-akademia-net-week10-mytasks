@@ -53,12 +53,18 @@ namespace MyTasks.Controllers
         }
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public IActionResult Save(Category category)
         {
             try
             {
                 var userId = User.GetUserId();
                 category.UserId = userId;
+
+                ModelState.Remove("category.UserId");
+
+                if (!ModelState.IsValid)
+                    return Json(new { success = false, message = "Nieprawidłowe dane" });
                 if (category.Id != 0)
                 {
                     _categoryService.Update(category);
@@ -68,6 +74,7 @@ namespace MyTasks.Controllers
                 {
                     _categoryService.Add(category);
                 }
+
 
             }
             catch (Exception ex)
@@ -88,7 +95,7 @@ namespace MyTasks.Controllers
                 var userId = User.GetUserId();
                 _categoryService.Delete(id, userId);
             }
-            catch(ReferencedToAnotherObjectException)
+            catch (ReferencedToAnotherObjectException)
             {
                 return Json(new { success = false, message = "Kategoria jest przypisana do zadania i nie może być usunięta" });
             }

@@ -3,6 +3,7 @@ using MyTasks.Core;
 using MyTasks.Core.Models.Domains;
 using MyTasks.Core.Repositories;
 using MyTasks.Persistence.Exceptions;
+using System.Threading.Tasks;
 
 namespace MyTasks.Persistence.Repositories
 {

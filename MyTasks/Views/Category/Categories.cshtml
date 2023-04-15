@@ -74,19 +74,27 @@
 
         
         function saveCategory(){
+            let form = $('#categoryForm');
+
+                
             $.ajax({
                 type: 'POST',
                 url: '@Url.Action("Save", "Category")',
-                data: $('#categoryForm').serialize(),
+                data: form.serialize(),
                 success: function (data) {
-                    reloadCategoriesTable();
-                    $('#categoryModal').modal('hide');
+                    if(data.success){
+                        reloadCategoriesTable();
+                        $('#categoryModal').modal('hide');
+                    } else{
+                        alert(data.message);
+                    }
+                    
                    
                 },
                 error: function (data) {
                     alert(data.message);
                 },
-                dataType: "html"
+                dataType: "json"
             });
         }
 

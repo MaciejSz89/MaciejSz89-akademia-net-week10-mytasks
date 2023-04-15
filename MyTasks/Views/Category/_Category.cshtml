@@ -14,8 +14,7 @@
       <div class="modal-body">
         <form id="categoryForm" class="row gy-2 gx-3 align-items-center">
             @Html.AntiForgeryToken()
-
-            @Html.LabelFor(x => x.Category.Name)
+            
             @Html.TextBoxFor(x => x.Category.Name, 
                              new { @class="form-control",
                                    placeholder = "Wpisz nazwę kategorii..." })
