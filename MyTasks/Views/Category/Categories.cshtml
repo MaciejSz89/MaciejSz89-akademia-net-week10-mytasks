@@ -18,7 +18,10 @@
      </div>
     </div>
     <div class="row">
-       @await Html.PartialAsync("_CategoriesTable", @Model)
+        <div id="categoriesTable"
+             class="col-5">
+            @await Html.PartialAsync("_CategoriesTable", @Model)
+        </div>
     </div>
     
     
@@ -98,8 +101,23 @@
                 },
                 success: function (data) {
                     if (data.success) {
-                        var row = btn.parentNode.parentNode;
-                        row.parentNode.removeChild(row);
+                        let row = $(btn).parent().parent();
+                        let tbody = $(btn).parent().parent().parent();
+                        
+                        row.remove();
+
+                        let hasNoCategories = tbody.children().length === 0;
+
+                        if (hasNoCategories) {
+                            let noCategoriesRow = document.createElement("tr");
+                            let noCategoriesCell = document.createElement("td");
+                            $(noCategoriesCell).addClass("text-center");
+                            $(noCategoriesCell).attr("colspan", 5);
+                            noCategoriesCell.innerHTML = "Brak kategorii!";
+                            $(noCategoriesRow).append(noCategoriesCell);
+                            tbody.append(noCategoriesRow);
+                        }
+
                     } else {
                         alert(data.message);
                     }

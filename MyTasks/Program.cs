@@ -1,10 +1,12 @@
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Localization;
 using Microsoft.EntityFrameworkCore;
 using MyTasks.Core;
 using MyTasks.Core.Models.Domains;
 using MyTasks.Core.Service;
 using MyTasks.Persistence;
 using MyTasks.Persistence.Services;
+using System.Globalization;
 
 var builder = WebApplication.CreateBuilder(args);
 var configuration = builder.Configuration;
@@ -26,6 +28,22 @@ builder.Services.AddDefaultIdentity<ApplicationUser>(options => options.SignIn.R
     .AddUserManager<ApplicationUserManager>();
 builder.Services.AddControllersWithViews();
 
+builder.Services.Configure<RequestLocalizationOptions>(options =>
+{
+    CultureInfo defaultCulture = (CultureInfo)options.SupportedCultures[0].Clone();
+    defaultCulture.DateTimeFormat.ShortDatePattern = "dd-MM-yyyy";
+    defaultCulture.DateTimeFormat.DateSeparator = "-";
+    defaultCulture.NumberFormat.NumberDecimalDigits = 2;
+    defaultCulture.NumberFormat.NumberDecimalSeparator = ",";
+    defaultCulture.NumberFormat.NumberGroupSeparator = "";
+    options.SupportedCultures[0] = defaultCulture;
+
+});
+
+builder.Services.AddLocalization(options => options.ResourcesPath = "Resources");
+builder.Services.AddControllersWithViews();
+
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -41,7 +59,14 @@ else
 }
 
 app.UseHttpsRedirection();
+
+
+
+
+
 app.UseStaticFiles();
+
+app.UseRequestLocalization();
 
 app.UseRouting();
 

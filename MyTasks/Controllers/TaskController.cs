@@ -41,12 +41,12 @@ namespace MyTasks.Controllers
             var userId = User.GetUserId();
 
             var tasks = _taskService.Get(new GetTaskParams
-                                         {
-                                             UserId = userId,
-                                             IsExecuted = viewModel.FilterTasks.IsExecuted,
-                                             CategoryId = viewModel.FilterTasks.CategoryId,
-                                             Title = viewModel.FilterTasks.Title
-                                         });
+            {
+                UserId = userId,
+                IsExecuted = viewModel.FilterTasks.IsExecuted,
+                CategoryId = viewModel.FilterTasks.CategoryId,
+                Title = viewModel.FilterTasks.Title
+            });
 
 
             return PartialView("_TasksTable", tasks);
@@ -72,11 +72,11 @@ namespace MyTasks.Controllers
         }
 
         [HttpPost]
-        [ValidateAntiForgeryToken]
         public IActionResult Task(Task task)
         {
             var userId = User.GetUserId();
             task.UserId = userId;
+
 
             if (!ModelState.IsValid)
             {

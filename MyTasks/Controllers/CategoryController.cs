@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using MyTasks.Core.Models;
 using MyTasks.Core.Models.Domains;
 using MyTasks.Core.Service;
@@ -9,6 +10,7 @@ using MyTasks.Persistence.Services;
 
 namespace MyTasks.Controllers
 {
+    [Authorize]
     public class CategoryController : Controller
     {
         private ICategoryService _categoryService;

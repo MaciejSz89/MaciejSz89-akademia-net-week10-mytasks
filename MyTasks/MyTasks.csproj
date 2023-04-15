@@ -2,7 +2,7 @@
 
   <PropertyGroup>
     <TargetFramework>net6.0</TargetFramework>
-    <Nullable>annotations</Nullable>
+    <Nullable>disable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
     <UserSecretsId>aspnet-MyTasks-ad04c672-0469-4845-bf83-713b2ba3bf82</UserSecretsId>
   </PropertyGroup>

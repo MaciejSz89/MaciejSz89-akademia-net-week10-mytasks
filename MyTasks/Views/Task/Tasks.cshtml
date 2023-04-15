@@ -74,8 +74,22 @@
                 },
                 success: function (data) {
                     if (data.success) {
-                        var row = btn.parentNode.parentNode;
-                        row.parentNode.removeChild(row);
+                        let row = $(btn).parent().parent();
+                        let tbody = $(btn).parent().parent().parent();
+                        
+                        row.remove();
+
+                        let hasNoTasks = tbody.children().length === 0;
+
+                        if (hasNoTasks) {
+                            let noTasksRow = document.createElement("tr");
+                            let noTaskssCell = document.createElement("td");
+                            $(noTasksCell).addClass("text-center");
+                            $(noTasksCell).attr("colspan", 5);
+                            noTasksCell.innerHTML = "Brak zaplanowanych zadań do wykonania!";
+                            $(noTasksRow).append(noTasksCell);
+                            tbody.append(noTasksRow);
+                        }
                     }
                 },
                 error: function (data) {
@@ -96,8 +110,22 @@
                 },
                 success: function (data) {
                     if (data.success) {
-                        var row = btn.parentNode.parentNode;
-                        row.parentNode.removeChild(row);
+                        let row = $(btn).parent().parent();
+                        let tbody = $(btn).parent().parent().parent();
+
+                        row.remove();
+
+                        let hasNoTasks = tbody.children().length === 0;
+
+                        if (hasNoTasks) {
+                            let noTasksRow = document.createElement("tr");
+                            let noTaskssCell = document.createElement("td");
+                            $(noTasksCell).addClass("text-center");
+                            $(noTasksCell).attr("colspan", 5);
+                            noTasksCell.innerHTML = "Brak zaplanowanych zadań do wykonania!";
+                            $(noTasksRow).append(noTasksCell);
+                            tbody.append(noTasksRow);
+                        }
                     } else{
                         alert(data.message);
                     }
