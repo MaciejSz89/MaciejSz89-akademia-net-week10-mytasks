@@ -44,6 +44,7 @@
                     id : 0
                 },
                 success: function (data) {
+                    console.log(data);
                     $('#categoryPartial').html(data);
                     $('#categoryModal').modal('show');
                 },
@@ -88,6 +89,7 @@
                             return;
                         }
                     }catch{
+                        console.log(data);
                         $('#categoryModal').modal('hide');
                         $('#categoryPartial').html(data);
                         $('#categoryModal').modal('show');

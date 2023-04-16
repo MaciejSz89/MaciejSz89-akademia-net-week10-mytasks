@@ -69,7 +69,7 @@ namespace MyTasks.Controllers
                         Category = category
                     };
 
-                    return PartialView("_Category", new CategoryViewModel { Category = category });
+                    return PartialView("_Category", vm);
                 }
 
                 
