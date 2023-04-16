@@ -56,15 +56,24 @@ namespace MyTasks.Controllers
         [ValidateAntiForgeryToken]
         public IActionResult Save(Category category)
         {
+            var userId = User.GetUserId();
+            category.UserId = userId;
+
             try
-            {
-                var userId = User.GetUserId();
-                category.UserId = userId;
-
-                ModelState.Remove("category.UserId");
-
+            {            
                 if (!ModelState.IsValid)
-                    return Json(new { success = false, message = "Nieprawidłowe dane" });
+                {
+                    var vm = new CategoryViewModel
+                    {
+                        Heading = category.Id == 0 ? "Dodawanie nowej kategorii" : "Edycja kategorii",
+                        Category = category
+                    };
+
+                    return PartialView("_Category", new CategoryViewModel { Category = category });
+                }
+
+                
+
                 if (category.Id != 0)
                 {
                     _categoryService.Update(category);

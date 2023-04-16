@@ -74,27 +74,30 @@
 
         
         function saveCategory(){
-            let form = $('#categoryForm');
-
                 
             $.ajax({
                 type: 'POST',
                 url: '@Url.Action("Save", "Category")',
-                data: form.serialize(),
+                data: $('#categoryForm').serialize(),
                 success: function (data) {
-                    if(data.success){
-                        reloadCategoriesTable();
+                    try{
+                        var parsedData = JSON.parse(data);
+                        if(parsedData.success){
+                            reloadCategoriesTable();
+                            $('#categoryModal').modal('hide');
+                            return;
+                        }
+                    }catch{
                         $('#categoryModal').modal('hide');
-                    } else{
-                        alert(data.message);
-                    }
-                    
+                        $('#categoryPartial').html(data);
+                        $('#categoryModal').modal('show');
+                    }                   
                    
                 },
                 error: function (data) {
                     alert(data.message);
                 },
-                dataType: "json"
+                dataType: "html"
             });
         }
 
